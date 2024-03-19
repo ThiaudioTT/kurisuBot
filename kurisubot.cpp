@@ -2,15 +2,34 @@
 #include <dpp/dpp.h>
 #define PROJECT_NAME "kurisuBot"
 
-const std::string BOT_TOKEN = "myToken!";
+std::string BOT_TOKEN = "";
 
-int main(int argc, char **argv)
+int main(const int argc, const char**argv)
 {
-    if (argc != 1)
-    {
-        std::cout << argv[0] << "takes no arguments.\n";
+    if (argc > 2) {
+        std::cerr << "Usage: " << argv[0] << " [bot token]\n";
         return 1;
     }
+
+    // Set bot token
+    if(argc == 2) {
+        BOT_TOKEN = argv[1];
+        std::cout << "Successfully set bot token" << std::endl;
+    } else {
+        // get token from env.json
+        std::cout << "No token provided, attempting to read from env.json" << std::endl;
+        std::ifstream env_file("env.json");
+        if(env_file.is_open()) {
+            nlohmann::json env;
+            env_file >> env;
+            BOT_TOKEN = env["token"];
+            std::cout << "Successfully read token from env.json" << std::endl;
+        } else {
+            std::cerr << "No token provided and failed to read from env.json" << std::endl;
+            return 1;
+        }
+    }
+
     std::cout << "This is project " << PROJECT_NAME << ".\n";
 
     dpp::cluster bot(BOT_TOKEN);
