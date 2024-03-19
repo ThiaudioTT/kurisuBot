@@ -33,16 +33,20 @@ int main(const int argc, const char **argv) {
 
   std::cout << "This is project " << PROJECT_NAME << ".\n";
 
+  // Create bot
   dpp::cluster bot(BOT_TOKEN);
 
+  // Set up logging
   bot.on_log(dpp::utility::cout_logger());
 
+  // Set up event handlers
   bot.on_slashcommand([](const dpp::slashcommand_t &event) {
     if (event.command.get_command_name() == "ping") {
       event.reply("Pong!");
     }
   });
 
+  // Register bot commands
   bot.on_ready([&bot](const dpp::ready_t &event) {
     if (dpp::run_once<struct register_bot_commands>()) {
       bot.global_command_create(
@@ -50,6 +54,8 @@ int main(const int argc, const char **argv) {
     }
   });
 
+
+  // Start bot
   bot.start(dpp::st_wait);
 
   return 0;
