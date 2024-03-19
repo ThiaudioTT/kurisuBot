@@ -25,7 +25,7 @@ int main(const int argc, const char **argv) {
       BOT_TOKEN = env["token"];
       std::cout << "Successfully read token from env.json" << std::endl;
     } else {
-      std::cerr << "No token provided and failed to read from env.json"
+      std::cerr << "Failed to read from env.json"
                 << std::endl;
       return 1;
     }
