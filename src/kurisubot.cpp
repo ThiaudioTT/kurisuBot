@@ -42,12 +42,13 @@ int main(const int argc, const char **argv) {
 
   // Set up event handlers
   bot.on_slashcommand([](const dpp::slashcommand_t &event) {
-    if (event.command.get_command_name() == "ping") {
+    const std::string command = event.command.get_command_name();
+
+    if (command == "ping") 
       event.reply("Pong!");
-    } else if (event.command.get_command_name() == "status") {
-      // event.reply("I'm alive!");
+    else if (command == "status") 
       Status::status(event);
-    }
+      
   });
 
   // Register bot commands
