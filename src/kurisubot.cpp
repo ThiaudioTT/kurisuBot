@@ -1,5 +1,6 @@
 #include <dpp/dpp.h>
 #include <iostream>
+#include "status.hpp"
 #define PROJECT_NAME "kurisuBot"
 
 std::string BOT_TOKEN = "";
@@ -44,7 +45,8 @@ int main(const int argc, const char **argv) {
     if (event.command.get_command_name() == "ping") {
       event.reply("Pong!");
     } else if (event.command.get_command_name() == "status") {
-      event.reply("I'm alive!");
+      // event.reply("I'm alive!");
+      Status::status(event);
     }
   });
 

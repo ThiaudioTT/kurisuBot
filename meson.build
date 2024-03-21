@@ -5,7 +5,16 @@ project('kurisuBot', 'cpp',
 
 dpp = dependency('dpp')
 
-executable('kurisubot', 'src/kurisubot.cpp',
-  install : true, dependencies : [dpp])
+commands = include_directories('src/commands')
+
+src = [
+  'src/kurisubot.cpp',
+  'src/commands/commands.cpp'
+  ]
+
+
+executable('kurisubot', src,
+  install : true, dependencies : [dpp],
+  include_directories : [commands])
 
 # test('basic', exe)
