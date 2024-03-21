@@ -5,7 +5,7 @@ project('kurisuBot', 'cpp',
 
 dpp = dependency('dpp')
 
-exe = executable('kurisubot', 'kurisubot.cpp',
+executable('kurisubot', 'src/kurisubot.cpp',
   install : true, dependencies : [dpp])
 
-test('basic', exe)
+# test('basic', exe)

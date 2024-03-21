@@ -43,14 +43,16 @@ int main(const int argc, const char **argv) {
   bot.on_slashcommand([](const dpp::slashcommand_t &event) {
     if (event.command.get_command_name() == "ping") {
       event.reply("Pong!");
+    } else if (event.command.get_command_name() == "status") {
+      event.reply("I'm alive!");
     }
   });
 
   // Register bot commands
   bot.on_ready([&bot](const dpp::ready_t &event) {
     if (dpp::run_once<struct register_bot_commands>()) {
-      bot.global_command_create(
-          dpp::slashcommand("ping", "Ping pong!", bot.me.id));
+      bot.global_command_create(dpp::slashcommand("ping", "Ping pong!", bot.me.id));
+      bot.global_command_create(dpp::slashcommand("status", "Get bot/homelab status", bot.me.id));
     }
   });
 
