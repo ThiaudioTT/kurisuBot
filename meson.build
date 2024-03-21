@@ -9,8 +9,9 @@ commands = include_directories('src/commands')
 
 src = [
   'src/kurisubot.cpp',
-  'src/commands/commands.cpp'
-  ]
+  # Adds all source files for the commands here
+  'src/commands/status.cpp'
+]
 
 
 executable('kurisubot', src,
