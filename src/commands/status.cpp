@@ -8,7 +8,7 @@ void Status::status(const dpp::slashcommand_t& event) {
     event.reply ("I'm alive, Sir!\n\n**CPU**: " + getCPUUsage() + 
                 "\n**RAM**: " + getRamUsage() +
                 "\n**Disk**: " + getDiskUsage() +
-                "\n\nSystem Uptime: " + getUptime()
+                "\n**SYS Uptime**: " + getUptime()
                 );
 }
 
