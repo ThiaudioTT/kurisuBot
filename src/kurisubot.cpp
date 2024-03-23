@@ -57,6 +57,26 @@ int main(const int argc, const char **argv) {
       bot.global_command_create(dpp::slashcommand("ping", "Ping pong!", bot.me.id));
       bot.global_command_create(dpp::slashcommand("status", "Get bot/homelab status", bot.me.id));
     }
+
+    // todo: avoid using srand because it's not thread-safe
+    // set custom status
+    srand(time(NULL));
+    /* Create a timer that runs every 1 hour (3600s), that sets the status */
+    bot.start_timer([&bot](const dpp::timer& timer) {
+      const std::vector<std::string> playing_list = {
+        "Hearts of Iron IV",
+        "with the API",
+        "with the code",
+        "with the database",
+        "with the logs",
+        "in the server",
+        "in the cloud",
+        "in the homelab",
+      };
+
+      const uint8_t index = rand() % playing_list.size();
+      bot.set_presence(dpp::presence(dpp::ps_online, dpp::at_game, playing_list[index]));
+    }, 3600);
   });
 
 
