@@ -5,9 +5,11 @@
 #include <sys/statvfs.h>
 
 void Status::status(const dpp::slashcommand_t& event) {
-    event.reply ("I'm alive, Sir!\n**CPU**: " + getCPUUsage() + 
+    event.reply ("I'm alive, Sir!\n\n**CPU**: " + getCPUUsage() + 
                 "\n**RAM**: " + getRamUsage() +
-                "\n**Disk**: " + getDiskUsage());
+                "\n**Disk**: " + getDiskUsage() +
+                "\n\nSystem Uptime: " + getUptime()
+                );
 }
 
 
@@ -125,4 +127,26 @@ std::string Status::getDiskUsage() {
     const size_t free_space = stat.f_bfree * stat.f_frsize / 1024 / 1024 / 1024;
 
     return std::to_string(total_space - free_space) + "GB/" + std::to_string(total_space) + "GB";
+}
+
+/**
+ * @brief get uptime of the SYSTEM.
+ * TODO: get the uptime of the bot
+ * 
+ * @return std::string 
+ */
+std::string Status::getUptime() {
+    std::ifstream uptimeFile("/proc/uptime");
+
+    if(!uptimeFile.is_open()) throw std::runtime_error("Failed to open /proc/uptime");
+
+    double uptimeSeconds = 0;
+    uptimeFile >> uptimeSeconds;
+    uptimeFile.close();
+
+    // convert seconds to hours
+    const int hours = uptimeSeconds / 3600;
+
+    if (hours > 24) return std::to_string(hours / 24) + " days";
+    else return std::to_string(hours) + " hours";
 }
