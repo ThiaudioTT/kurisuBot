@@ -2,10 +2,12 @@
 #include <fstream>
 #include <chrono>
 #include <thread>
+#include <sys/statvfs.h>
 
 void Status::status(const dpp::slashcommand_t& event) {
     event.reply ("I'm alive, Sir!\n**CPU**: " + getCPUUsage() + 
-                "\n**RAM**: " + getRamUsage());
+                "\n**RAM**: " + getRamUsage() +
+                "\n**Disk**: " + getDiskUsage());
 }
 
 
@@ -101,4 +103,26 @@ std::string Status::getRamUsage() {
 
     // calculate the used memory
     return std::to_string((total_mem - available_mem) * 100 / total_mem) + "%";
+}
+
+
+/**
+ * @brief Get the Disk Usage 
+ * 
+ * @return std::string 
+ */
+std::string Status::getDiskUsage() {
+
+    struct statvfs stat;
+    
+    if (statvfs("/", &stat) != 0) 
+        throw std::runtime_error("Error retrieving disk space information.");
+
+    
+    // get the total disk space in GB
+
+    const size_t total_space = stat.f_blocks * stat.f_frsize / 1024 / 1024 / 1024;
+    const size_t free_space = stat.f_bfree * stat.f_frsize / 1024 / 1024 / 1024;
+
+    return std::to_string(total_space - free_space) + "GB/" + std::to_string(total_space) + "GB";
 }
