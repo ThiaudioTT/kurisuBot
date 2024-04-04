@@ -44,6 +44,7 @@ int main(const int argc, const char **argv) {
   bot.on_slashcommand([](const dpp::slashcommand_t &event) {
     const std::string command = event.command.get_command_name();
 
+    // TODO: automatically register commands
     if (command == "ping") 
       event.reply("Pong!");
     else if (command == "status") 
@@ -54,6 +55,7 @@ int main(const int argc, const char **argv) {
   // Register bot commands
   bot.on_ready([&bot](const dpp::ready_t &event) {
     if (dpp::run_once<struct register_bot_commands>()) {
+      // TODO: automatically register commands
       bot.global_command_create(dpp::slashcommand("ping", "Ping pong!", bot.me.id));
       bot.global_command_create(dpp::slashcommand("status", "Get bot/homelab status", bot.me.id));
     }
